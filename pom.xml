@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.bofa</groupId>
+    <artifactId>mybatis-generator-gui</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+    <modules>
+        <module>mybatis-generator-javafx-gui</module>
+        <module>mybatis-generator-server</module>
+        <module>mybatis-generator-service</module>
+        <module>mybatis-generator-common</module>
+        <module>mybatis-generator-start</module>
+    </modules>
+
+    <name>mybatis :: generator :: gui</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <google.guava.version>28.0-jre</google.guava.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <fastxml.jackson.version>2.10.0.pr1</fastxml.jackson.version>
+        <logback.version>1.2.3</logback.version>
+        <orika.version>1.5.4</orika.version>
+        <lombok.version>1.16.12</lombok.version>
+        <org.reflection.version>0.9.11</org.reflection.version>
+        <netty.version>4.1.6.Final</netty.version>
+        <drools.version>7.25.0.Final</drools.version>
+        <spring-boot.version>2.1.7.RELEASE</spring-boot.version>
+        <mybatis-generator.version>1.3.6</mybatis-generator.version>
+        <mysql-connector.version>8.0.17</mysql-connector.version>
+        <h2-database.version>1.4.199</h2-database.version>
+        <mybatis-spring.version>1.3.1</mybatis-spring.version>
+        <flyway.version>5.2.1</flyway.version>
+        <commons-dbutils.version>1.7</commons-dbutils.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- mybatis-generator -->
+            <dependency>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-core</artifactId>
+                <version>${mybatis-generator.version}</version>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- orm -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>tomcat-jdbc</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- 嵌入式数据h2 -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2-database.version}</version>
+            </dependency>
+            <!-- mysql -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+            <!-- 数据库版本管理 -->
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
+            </dependency>
+            <!-- spring-boot-dependencies -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- utils -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${google.guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-dbutils</groupId>
+                <artifactId>commons-dbutils</artifactId>
+                <version>${commons-dbutils.version}</version>
+            </dependency>
+            <!-- for ObjectMapper -->
+            <dependency>
+                <groupId>ma.glasnost.orika</groupId>
+                <artifactId>orika-core</artifactId>
+                <version>${orika.version}</version>
+            </dependency>
+
+            <!-- logback core-->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

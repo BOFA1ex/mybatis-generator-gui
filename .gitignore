@@ -1,0 +1,4 @@
+# Project exclude paths
+/mybatis-generator-common/target/
+/mybatis-generator-service/target/
+/mybatis-generator-start/target/

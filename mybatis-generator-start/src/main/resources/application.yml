@@ -1,0 +1,17 @@
+spring:
+  freemarker:
+    template-loader-path: classpath:/fmk/
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:./data/mybatisGenHelper
+    username: helper
+    password: helper
+  h2:
+    console:
+      enabled: true
+      path: /h2.console
+
+driver:
+  login:
+    timeout: 10
+
