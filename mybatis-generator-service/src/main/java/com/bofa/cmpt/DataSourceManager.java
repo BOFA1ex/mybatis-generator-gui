@@ -2,23 +2,20 @@ package com.bofa.cmpt;
 
 import com.bofa.common.model.TableInfo;
 import com.bofa.management.bean.DatasourceHolder;
-import com.bofa.management.dao.entity.Dbconfig;
+import com.bofa.management.dao.datasource.entity.Dbconfig;
+import com.bofa.management.exception.BusinessException;
 import com.bofa.management.service.datasource.constant.DbType;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.*;
+import com.zaxxer.hikari.util.DriverDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.stream.Collectors;
 
 /**
  * @author bofa1ex
@@ -30,20 +27,43 @@ public class DataSourceManager {
 
     static final Logger logger = LoggerFactory.getLogger(DataSourceManager.class);
 
-    @Value("${driver.login.timeout:#{5}}")
-    private Integer loginTimeOut;
+//    private ConcurrentHashMap<Long, DatasourceHolder> datasourceHolderMap = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<Long, DatasourceHolder> datasourceHolderMap = new ConcurrentHashMap<>();
+//    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+//    private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+//    private ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
 
-    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-    private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
-    private ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
-
-    public static final QueryRunner RUNNER = new QueryRunner();
+    public DatasourceHolder getDatasourceHolder(Dbconfig dbconfig) {
+        DatasourceHolder instance = null;
+        // quick-read
+//        try {
+//            readLock.lock();
+//        instance = this.datasourceHolderMap.get(dbconfig.getId());
+//        } finally {
+//            readLock.unlock();
+//        }
+//        if (instance != null) {
+//            logger.info("datasourceHolder -> {}", instance);
+//            return instance;
+//        }
+//        if (instance == null) {
+//            instance = this.createDatasourceHolder(dbconfig);
+//            this.datasourceHolderMap.put(dbconfig.getId(), instance);
+//        }
+        // write
+//        try {
+//            writeLock.lock();
+//        } finally {
+//            writeLock.unlock();
+//        }
+        instance = this.createDatasourceHolder(dbconfig);
+        logger.info("datasourceHolder -> {}", instance);
+        return instance;
+    }
 
     public List<TableInfo> getAllTables(DataSource dataSource, String schema, DbType dbType) {
         ResultSet rs = null;
-        List<TableInfo> tableInfos = null;
+        List<TableInfo> tableInfos = new ArrayList<>();
         try (Connection conn = dataSource.getConnection()) {
             DatabaseMetaData dbmd = conn.getMetaData();
             if (dbType == DbType.Oracle) {
@@ -51,76 +71,45 @@ public class DataSourceManager {
             } else {
                 rs = dbmd.getTables(null, null, null, new String[]{"TABLE"});
             }
-            BeanListHandler<TableInfo> handler = new BeanListHandler<>(TableInfo.class);
-            tableInfos = handler.handle(rs);
-            tableInfos.forEach(System.out::println);
+            int var15 = 1;
+            while (rs.next()) {
+                TableInfo info = new TableInfo();
+                info.setId(var15++);
+                info.setDbname(rs.getString(1));
+                info.setTableName(rs.getString(3));
+                info.setType(rs.getString(4));
+                ResultSet keysRs = dbmd.getPrimaryKeys(null, schema != null ? schema.toUpperCase() : null, info.getTableName());
+                while (keysRs.next()) {
+                    String primaryKeyColumnName = keysRs.getString("COLUMN_NAME");
+                    if (StringUtils.isBlank(primaryKeyColumnName)) {
+                        BusinessException.throwBusinessException("该表[ " + info.getTableName() + " ] 没有主键");
+                    }
+                    info.setPrimaryKeyColumnName(primaryKeyColumnName);
+                    break;
+                }
+                tableInfos.add(info);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return tableInfos;
     }
 
-    public static void main(String[] args) {
-        ResultSet rs = null;
-        List<TableInfo> tableInfos = new ArrayList<>();
-        DataSourceManager manager = new DataSourceManager();
-        try (Connection conn = manager.getConnection("jdbc:mysql://localhost:3306/test", "root", "sunbofan123")) {
-            DatabaseMetaData dbmd = conn.getMetaData();
-//            if (dbType == DbType.Oracle) {
-//                rs = dbmd.getTables(null, schema != null ? schema.toUpperCase() : null, null, new String[]{"TABLE"});
-//            } else {
-            rs = dbmd.getTables(null, null, null, new String[]{"TABLE"});
-//            }
-            int var15 = 1;
-            while (rs.next()) {
-                TableInfo info = new TableInfo();
-                info.setId(var15++);
-                info.setDbname(rs.getString(2));
-                info.setTableName(rs.getString(3));
-                info.setType(rs.getString(4));
-                tableInfos.add(info);
-            }
-            tableInfos.forEach(System.out::println);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Connection getConnection(String url, String username, String password) throws SQLException {
-//        DriverManager.setLoginTimeout(loginTimeOut);
+    private DataSource getDataSource(String dbType, String url, String username, String password) {
         Properties pro = new Properties();
-        pro.setProperty("user", username);
-        pro.setProperty("password", password);
-        // mysql is not supported catalog and schema
-        // so need to add this property below that.
-        pro.setProperty("nullCatalogMeansCurrent", "true");
-        StringBuilder sbKey = new StringBuilder(url);
-        sbKey.append("§");
-        sbKey.append(pro.stringPropertyNames().stream().map((k) -> k + "=" + pro.getProperty(k)).collect(Collectors.joining(", ", "{", "}")));
-        System.out.println(sbKey.toString());
-        return DriverManager.getConnection(url, pro);
-    }
-
-    public DatasourceHolder getDatasourceHolder(Dbconfig dbconfig) {
-        DatasourceHolder instance = null;
-        try {
-            readLock.lock();
-            instance = this.datasourceHolderMap.get(dbconfig.getId());
-            logger.info("datasourceHolder -> {}", instance);
-        } finally {
-            readLock.unlock();
+        /*
+         * Note:
+         * mysql is not supported catalog and schema
+         * so need to add this property below that.
+         * TODO 2019-08-27 bofa1ex http://www.mybatis.org/generator/usage/mysql.html
+         */
+        DbType dt = DbType.findDbType(dbType);
+        if (dt == null) {
+            BusinessException.throwBusinessException("dbType is not found");
+        } else if (dt == DbType.MySQL) {
+            pro.setProperty("nullCatalogMeansCurrent", "true");
         }
-        try {
-            if (instance == null) {
-                instance = this.createDatasourceHolder(dbconfig);
-                logger.info("datasourceHolder -> {}", instance);
-                writeLock.lock();
-                this.datasourceHolderMap.put(dbconfig.getId(), instance);
-            }
-        } finally {
-            writeLock.unlock();
-        }
-        return instance;
+        return new DriverDataSource(url, dt.getDriverClass(), pro, username, password);
     }
 
     /**
@@ -130,7 +119,7 @@ public class DataSourceManager {
      *
      * @return
      *
-     * @see #createDataSource(com.bofa.management.dao.entity.Dbconfig)
+     * @see #createDataSource(com.bofa.management.dao.datasource.entity.Dbconfig)
      */
     private DatasourceHolder createDatasourceHolder(Dbconfig dbconfig) {
         DatasourceHolder holder = new DatasourceHolder();
@@ -141,14 +130,22 @@ public class DataSourceManager {
     }
 
     public DataSource createDataSource(Dbconfig dbconfig) {
-        try (Connection conn = getConnection(dbconfig.getDburl(), dbconfig.getDbname(), dbconfig.getDbpassword())) {
+        DataSource dataSource = getDataSource(dbconfig.getDbtype(), dbconfig.getDburl(), dbconfig.getDbname(), dbconfig.getDbpassword());
+        try (Connection conn = dataSource.getConnection()) {
+            logger.info("建立连接 {}", conn);
         } catch (SQLException e) {
-            throw new RuntimeException("根据" + dbconfig + "尝试连接数据库失败!");
+            BusinessException.throwBusinessException("根据" + dbconfig + "尝试连接数据库失败! \n原因 " + e.getMessage());
         }
-        return DataSourceBuilder.create().url(dbconfig.getDburl())
-                .driverClassName(dbconfig.getDbdrive())
-                .username(dbconfig.getDbname())
-                .password(dbconfig.getDbpassword()).build();
+        return dataSource;
+    }
+
+    public void testConnect(Dbconfig dbconfig) {
+        DataSource dataSource = getDataSource(dbconfig.getDbtype(), dbconfig.getDburl(), dbconfig.getDbname(), dbconfig.getDbpassword());
+        try (Connection conn = dataSource.getConnection()) {
+            logger.info("建立连接 {}", conn);
+        } catch (SQLException e) {
+            BusinessException.throwBusinessException("根据" + dbconfig + "尝试连接数据库失败! \n原因 " + e.getMessage());
+        }
     }
 
 }

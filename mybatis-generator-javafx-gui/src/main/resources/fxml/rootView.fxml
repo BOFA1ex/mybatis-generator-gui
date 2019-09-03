@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bofa.javafx.controller.RootViewController">
+  <children>
+      <ToolBar id="toolbar" minHeight="-Infinity" minWidth="-Infinity">
+         <items>
+            <Button fx:id="connectDbBtn" mnemonicParsing="false" text="Connect Database">
+               <effect>
+                  <Glow />
+               </effect>
+            </Button>
+            <Button fx:id="saveConfigBtn" mnemonicParsing="false" text="Save Configuration">
+               <effect>
+                  <Glow />
+               </effect>
+            </Button>
+         </items>
+      </ToolBar>
+      <HBox alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="SOMETIMES">
+         <children>
+            <ScrollPane fx:id="dbPane" hbarPolicy="NEVER" minHeight="-Infinity" minWidth="-Infinity" pannable="true" vbarPolicy="NEVER">
+               <content>
+                  <VBox fx:id="dbVBox" alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <TextField fx:id="searchView" opacity="0.75" promptText="search for db or schema">
+                           <font>
+                              <Font name="Monaco" size="14.0" />
+                           </font>
+                        </TextField>
+                        <TreeView fx:id="dbTreeView" showRoot="false" VBox.vgrow="SOMETIMES" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+        <AnchorPane id="detailsView" HBox.hgrow="ALWAYS">
+          <children>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="Generate Details" textAlignment="CENTER" wrapText="false">
+                     <font>
+                <Font name="Monaco" size="20.0" fx:id="x1" />
+                     </font>
+                     <textFill>
+                <Color blue="0.624" green="0.624" red="0.624" fx:id="x2" />
+                     </textFill>
+                  </Label>
+                  <GridPane fx:id="daoGrid" alignment="CENTER" layoutX="52.0" layoutY="154.0" minHeight="400.0" minWidth="650.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="125.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="198.0" minWidth="10.0" prefWidth="193.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="41.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="93.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="188.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="100.0" text="基础包名">
+                           <font>
+                              <Font name="Monaco" size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="basePackageView" promptText="com.example" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER_RIGHT" minWidth="80.0" text="业务名" GridPane.columnIndex="3">
+                           <font>
+                              <Font name="Monaco" size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="bizView" GridPane.columnIndex="4" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="100.0" text="Dao工程基本路径" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Monaco" size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="daoProjectView" promptText="choose target dao module' classpath  in project" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+                        <Button fx:id="chooseDaoProjectBtn" mnemonicParsing="false" text="..." GridPane.columnIndex="4" GridPane.rowIndex="1">
+                           <effect>
+                              <Glow />
+                           </effect>
+                        </Button>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="100.0" text="主键名" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Monaco" size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="primaryKeyView" disable="true" editable="false" promptText="primaryKeyName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="80.0" text="主键策略" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Monaco" size="13.0" />
+                           </font>
+                        </Label>
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                           <children>
+                              <RadioButton fx:id="primaryKeyRule1" mnemonicParsing="false" text="自增">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                              </RadioButton>
+                              <RadioButton fx:id="primaryKeyRule2" mnemonicParsing="false" text="ORACLE 序列增长">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                              </RadioButton>
+                              <RadioButton fx:id="primaryKeyRule3" mnemonicParsing="false" text="由用户填写">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                              </RadioButton>
+                           </children>
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                        </VBox>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="100.0" text="实体类包名" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Monaco" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="80.0" text="DAO类包名" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Monaco" size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="entityPackageView" disable="true" editable="false" promptText="com.example.dao.xx.entity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="daoPackageView" disable="true" editable="false" promptText="com.example.dao.xx" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="svGrid" alignment="CENTER" minHeight="400.0" minWidth="650.0" visible="false" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="125.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="198.0" minWidth="10.0" prefWidth="169.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="57.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="168.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="基本工程路径" GridPane.hgrow="SOMETIMES">
+                           <font>
+                              <Font name="Monaco" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField promptText="../src/main/java" GridPane.columnIndex="1" />
+                        <Button mnemonicParsing="false" text="..." GridPane.columnIndex="2" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="100.0" text="基础包名" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Monaco" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField promptText="com.example" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="业务名" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Monaco" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="实体类名" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Monaco" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Button mnemonicParsing="false" text="定制列" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="DAO工程基本路径" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="controllerGrid" alignment="CENTER" minHeight="400.0" minWidth="650.0" visible="false" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="125.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="198.0" minWidth="10.0" prefWidth="169.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="57.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="168.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="基本工程路径" GridPane.hgrow="SOMETIMES">
+                           <font>
+                              <Font name="Monaco" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField promptText="../src/main/java" GridPane.columnIndex="1" />
+                        <Button mnemonicParsing="false" text="..." GridPane.columnIndex="2" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="100.0" text="基础包名" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Monaco" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField promptText="com.example" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="业务名" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Monaco" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="实体类名" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Monaco" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Button mnemonicParsing="false" text="定制列" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="DAO工程基本路径" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="164.0" layoutY="455.0" text="Controller" />
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="403.0" layoutY="455.0" text="Service" />
+                  <ToggleButton fx:id="serviceOff" layoutX="466.0" layoutY="450.0" mnemonicParsing="false" text="OFF" />
+                  <ToggleButton fx:id="serviceOn" alignment="TOP_LEFT" layoutX="509.0" layoutY="450.0" mnemonicParsing="false" text="ON" />
+                  <Button fx:id="generateBtn" layoutX="619.0" layoutY="449.0" mnemonicParsing="false" prefWidth="81.0" text="Generate">
+                     <font>
+                        <Font name="Monaco" size="13.0" />
+                     </font>
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </Button>
+                  <ToggleButton fx:id="controllerOff" layoutX="239.0" layoutY="450.0" text="OFF" textFill="WHITE" />
+                  <ToggleButton fx:id="controllerOn" alignment="TOP_LEFT" layoutX="282.0" layoutY="450.0" mnemonicParsing="false" text="ON" textFill="WHITE" />
+          </children>
+        </AnchorPane>
+         </children>
+      </HBox>
+  </children>
+</VBox>

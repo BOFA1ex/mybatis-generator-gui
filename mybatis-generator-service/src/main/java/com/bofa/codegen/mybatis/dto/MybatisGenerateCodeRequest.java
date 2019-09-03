@@ -13,6 +13,7 @@ import java.util.List;
 public class MybatisGenerateCodeRequest {
     private Long dbId;
     private String tableName;
+    private String rootEntityClass = "MybatisEntity";
     private String entityPrimaryKey;
     private String entityPrimaryKeyRule;
     private String entitySeq;

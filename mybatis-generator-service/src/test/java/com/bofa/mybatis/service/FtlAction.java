@@ -2,10 +2,12 @@ package com.bofa.mybatis.service;
 
 import com.bofa.common.codegen.fmk.model.BaseMapperBean;
 import freemarker.template.*;
+import lombok.Data;
 import org.junit.Test;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.StringTokenizer;
 
 import static freemarker.template.Configuration.VERSION_2_3_28;
 
@@ -35,4 +37,22 @@ public class FtlAction {
             e.printStackTrace();
         }
     }
+
+    @Data
+    static class StrFormatHolder {
+        String pattern;
+        String template;
+    }
+
+    public static void main(String[] args) {
+//        StrFormatHolder holder = new StrFormatHolder();
+//        holder.setPattern("com.%s.dao.%s.entity");
+//        holder.setTemplate("com..dao..entity");
+//        String response = String.format(holder.getPattern(), "bofa", "chat");
+        String original = "com.bofa";
+        String data = "com.%s.dao.%s.entity";
+        String response = String.format(data, original.split("\\.")[1], "");
+        System.out.println(response);
+    }
+
 }

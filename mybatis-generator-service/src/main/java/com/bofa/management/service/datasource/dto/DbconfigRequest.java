@@ -10,10 +10,13 @@ import lombok.Data;
 @Data
 public class DbconfigRequest {
     private Long id;
+    private String dbconnectname;
+    private String dbdrive;
     private String dbschema;
     private String dbtype;
     private String description;
     private String dburl;
     private String dbname;
     private String dbpassword;
+    private String status;
 }

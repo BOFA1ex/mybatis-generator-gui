@@ -1,5 +1,6 @@
 package com.bofa.cmpt;
 
+import com.bofa.management.exception.BusinessException;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
 import org.mybatis.generator.exception.InvalidConfigurationException;
@@ -54,6 +55,10 @@ public class MybatisGenCmpt {
 
     public PluginConfigurationBuilder newPluginConfigurationBuilder() {
         return new PluginConfigurationBuilder(new PluginConfiguration());
+    }
+
+    public JavaTypeResolverConfigurationBuilder newJavaTypeResolverConfigurationBuilder() {
+        return new JavaTypeResolverConfigurationBuilder(new JavaTypeResolverConfiguration());
     }
 
     public static class ContextBuilder {
@@ -305,6 +310,12 @@ public class MybatisGenCmpt {
             return this;
         }
 
+        public CommentGeneratorConfigurationBuilder setConfigurationType(String configurationType) {
+            logger.info("comment configurationType {}", configurationType);
+            commentConfig.setConfigurationType(configurationType);
+            return this;
+        }
+
         public CommentGeneratorConfiguration build() {
             return commentConfig;
         }
@@ -328,7 +339,25 @@ public class MybatisGenCmpt {
         }
     }
 
-    public void generate(Configuration config, DefaultShellCallback callback) {
+    public static class JavaTypeResolverConfigurationBuilder {
+        JavaTypeResolverConfiguration resolverConfig;
+
+        private JavaTypeResolverConfigurationBuilder(JavaTypeResolverConfiguration resolverConfig) {
+            this.resolverConfig = resolverConfig;
+        }
+
+        public JavaTypeResolverConfigurationBuilder setConfigurationType(String configurationType) {
+            logger.info("javaType-resolve-configurationType {}", configurationType);
+            resolverConfig.setConfigurationType(configurationType);
+            return this;
+        }
+
+        public JavaTypeResolverConfiguration build() {
+            return resolverConfig;
+        }
+    }
+
+    public void generate(Configuration config, DefaultShellCallback callback) throws Exception {
         List<String> warnings = new ArrayList<>();
         try {
             MyBatisGenerator gen = new MyBatisGenerator(config, callback, warnings);
@@ -337,6 +366,13 @@ public class MybatisGenCmpt {
             logger.info("mybatis generate finished...");
         } catch (InvalidConfigurationException | InterruptedException | IOException | SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            logger.warn("warnings {}", warnings);
+            if (warnings.size() != 0) {
+                StringBuilder sb = new StringBuilder();
+                warnings.forEach(sb::append);
+                BusinessException.throwBusinessException(sb.toString());
+            }
         }
     }
 }

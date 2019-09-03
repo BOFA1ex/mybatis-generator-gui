@@ -28,6 +28,10 @@ public class BusinessException extends RuntimeException {
         throw new BusinessException(errorCode, message);
     }
 
+    public static BusinessException mapperBusinessException(String message) {
+        return new BusinessException(message);
+    }
+
     public static void throwBusinessException(String message) {
         throw new BusinessException(message);
     }

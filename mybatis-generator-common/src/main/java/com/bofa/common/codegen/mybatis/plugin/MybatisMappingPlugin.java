@@ -41,7 +41,6 @@ public class MybatisMappingPlugin extends PluginAdapter {
                 introspectedColumn = (IntrospectedColumn)var9.next();
             }
         }
-
         superInterface.addTypeArgument(KeyType);
         superInterface.addTypeArgument(new FullyQualifiedJavaType(introspectedTable.getExampleType()));
         interfaze.addSuperInterface(superInterface);

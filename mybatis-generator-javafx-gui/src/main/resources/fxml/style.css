@@ -1,0 +1,21 @@
+.btn-success:hover {
+    -fx-text-fill: #fff;
+    -fx-background-color: #449d44;
+    -fx-border-color: #398439;
+}
+
+.btn-success {
+    -fx-text-fill: #fff;
+    -fx-background-color: #5cb85c;
+    -fx-border-color: #4cae4c;
+}
+
+.toggle-button-on {
+    -fx-text-fill: #fff;
+    -fx-background-color: #337ab7;
+}
+
+.toggle-button-close {
+    -fx-text-fill: #fff;
+    -fx-background-color: #fff;
+}

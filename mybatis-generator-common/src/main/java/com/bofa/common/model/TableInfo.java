@@ -12,6 +12,7 @@ public class TableInfo {
     private String dbname;
     private String tableName;
     private String tableEntityName;
+    private String primaryKeyColumnName;
     private String remarks;
     private String type;
 }

@@ -1,7 +1,7 @@
 package com.bofa.management.bean;
 
 import com.bofa.common.model.TableInfo;
-import com.bofa.management.dao.entity.Dbconfig;
+import com.bofa.management.dao.datasource.entity.Dbconfig;
 import lombok.Data;
 
 import javax.sql.DataSource;
