@@ -368,11 +368,11 @@ public class MybatisGenCmpt {
             throw new RuntimeException(e);
         } finally {
             logger.warn("warnings {}", warnings);
-            if (warnings.size() != 0) {
-                StringBuilder sb = new StringBuilder();
-                warnings.forEach(sb::append);
-                BusinessException.throwBusinessException(sb.toString());
-            }
+//            if (warnings.size() != 0) {
+//                StringBuilder sb = new StringBuilder();
+//                warnings.forEach(sb::append);
+//                BusinessException.throwBusinessException(sb.toString());
+//            }
         }
     }
 }

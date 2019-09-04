@@ -45,7 +45,7 @@ public class CommonEntityClassPlugin extends PluginAdapter {
         String entityTargetDir = context.getJavaModelGeneratorConfiguration().getTargetProject();
         String entityTargetPackage = context.getJavaModelGeneratorConfiguration().getTargetPackage();
         String rootEntityClass = context.getJavaModelGeneratorConfiguration().getProperty("rootClass");
-        TopLevelClass baseEntity = new TopLevelClass(entityTargetPackage + DEFAULT_BASE_PACKAGE + rootEntityClass);
+        TopLevelClass baseEntity = new TopLevelClass(DEFAULT_BASE_PACKAGE + rootEntityClass);
         if (stringHasValue(entityTargetPackage)) {
             baseEntity.setVisibility(JavaVisibility.PUBLIC);
             baseEntity.addJavaDocLine("/**");

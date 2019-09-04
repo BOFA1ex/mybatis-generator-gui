@@ -257,8 +257,16 @@ public class DbDialogController extends AbstractFxmlController {
             dto.setId(replicaConfig.getId());
             dto.setStatus(replicaConfig.getStatus());
         }
-        String dbType = driverComboBox.getSelectionModel().getSelectedItem();
-        dto.setDbconnectname(connectNameView.getText());
+        String dbType, connectName;
+        if (StringUtils.isBlank((connectName = connectNameView.getText()))) {
+            AlertUtil.showWarnAlert("connectName不可为空");
+            BusinessException.throwBusinessException("connectName不可为空");
+        }
+        if ((dbType = driverComboBox.getSelectionModel().getSelectedItem()) == null) {
+            AlertUtil.showWarnAlert("数据库类型不可为空");
+            BusinessException.throwBusinessException("数据库类型不可为空");
+        }
+        dto.setDbconnectname(connectName);
         dto.setDbschema(schemaView.getText());
         dto.setDbtype(dbType);
         DbType dt = DbType.findDbType(dbType);

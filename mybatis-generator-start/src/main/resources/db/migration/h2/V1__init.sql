@@ -12,8 +12,3 @@ create table dbconfig
     create_date   timestamp,
     status        varchar(1)   not null
 );
-
-insert into DBCONFIG (DBSCHEMA, DBCONNECTNAME, DBTYPE, DESCRIPTION, DBURL, DBDRIVE, DBNAME, DBPASSWORD,
-                      CREATE_DATE, STATUS)
-values ('test', 'mysql-test', 'mysql', NULL, 'jdbc:mysql://localhost:3306/test', 'com.mysql.cj.jdbc.Driver',
-        'root', 'sunbofan123', null, '0');

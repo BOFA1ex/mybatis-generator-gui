@@ -48,7 +48,6 @@
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-core</artifactId>
                 <version>${mybatis-generator.version}</version>
-                <scope>import</scope>
             </dependency>
 
             <!-- orm -->
@@ -63,7 +62,12 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
+            <!-- oracle -->
+            <dependency>
+                <groupId>oracle</groupId>
+                <artifactId>oracle6</artifactId>
+                <version>1.0.0</version>
+            </dependency>
             <!-- 嵌入式数据h2 -->
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -142,4 +146,17 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -8,7 +8,6 @@ import com.bofa.codegen.mybatis.dto.MybatisGenerateCodeRequest;
 import com.bofa.management.dao.datasource.DbconfigMapper;
 import com.bofa.management.dao.datasource.entity.Dbconfig;
 import com.bofa.management.exception.BusinessException;
-import com.bofa.management.service.datasource.constant.DbType;
 import org.mybatis.generator.config.*;
 import org.mybatis.generator.plugins.SerializablePlugin;
 import org.springframework.beans.factory.annotation.Autowired;

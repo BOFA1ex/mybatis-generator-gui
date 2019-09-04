@@ -44,15 +44,4 @@ public class FtlAction {
         String template;
     }
 
-    public static void main(String[] args) {
-//        StrFormatHolder holder = new StrFormatHolder();
-//        holder.setPattern("com.%s.dao.%s.entity");
-//        holder.setTemplate("com..dao..entity");
-//        String response = String.format(holder.getPattern(), "bofa", "chat");
-        String original = "com.bofa";
-        String data = "com.%s.dao.%s.entity";
-        String response = String.format(data, original.split("\\.")[1], "");
-        System.out.println(response);
-    }
-
 }

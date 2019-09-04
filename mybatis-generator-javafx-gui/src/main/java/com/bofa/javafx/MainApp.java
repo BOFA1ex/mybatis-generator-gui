@@ -28,7 +28,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("mybatisGenApp");
+        this.primaryStage.setTitle("mybatis-generator");
         initRootLayout();
     }
 

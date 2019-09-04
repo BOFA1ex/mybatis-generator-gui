@@ -280,14 +280,15 @@ public class RootViewController extends AbstractFxmlController {
     public void loadTreeView(Dbconfig dbconfig) {
         FilterableTreeItem root = (FilterableTreeItem) dbTreeView.getRoot();
         root.removeIfAbsent(dbconfig);
-        FilterableTreeItem<String> childRoot = new FilterableTreeItem<>(dbconfig.getDbconnectname());
+        FilterableTreeItem<String> childRoot = new FilterableTreeItem<>(dbconfig.getDbschema());
         childRoot.setExpanded(false);
         ImageView rootImg = new ImageView("icons/database.png");
         rootImg.setUserData(dbconfig);
         childRoot.setGraphic(rootImg);
         root.add(childRoot);
 
-        loadTableInfos(childRoot);
+        // load too slow!!!!!!!
+//        loadTableInfos(childRoot);
     }
 
     private void loadTableInfos(FilterableTreeItem treeItem) {
@@ -374,10 +375,14 @@ public class RootViewController extends AbstractFxmlController {
         controllerOff.getStyleClass().add("toggle-button-on");
         controllerOn.getStyleClass().add("toggle-button-close");
         controllerToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                return;
+            }
             ObservableList<String> controllerOnStyleClass = controllerOn.getStyleClass();
             ObservableList<String> controllerOffStyleClass = controllerOff.getStyleClass();
             controllerOnStyleClass.remove(1);
             controllerOffStyleClass.remove(1);
+
             if (newValue.equals(controllerOn)) {
                 controllerOnStyleClass.add("toggle-button-on");
                 controllerOffStyleClass.add("toggle-button-close");
@@ -397,6 +402,9 @@ public class RootViewController extends AbstractFxmlController {
         serviceOff.getStyleClass().add("toggle-button-on");
         serviceOn.getStyleClass().add("toggle-button-close");
         serviceToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                return;
+            }
             ObservableList<String> serviceOnStyleClass = serviceOn.getStyleClass();
             ObservableList<String> serviceOffStyleClass = serviceOff.getStyleClass();
             serviceOnStyleClass.remove(1);

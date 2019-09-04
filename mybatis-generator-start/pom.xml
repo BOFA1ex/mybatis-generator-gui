@@ -44,4 +44,57 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.8.3</version>
+                <configuration>
+                    <appName>mybatis-generator</appName>
+                    <bundleArguments>
+                        <!-- windows打包icon-->
+                        <icon>
+                            ${project.basedir}/src/main/resources/icons/package/mybatis-generator-gui.ico
+                        </icon>
+                        <!-- mac打包icon-->
+                        <icon>
+                            ${project.basedir}/src/main/resources/icons/package/mybatis-generator-gui.icns
+                        </icon>
+                    </bundleArguments>
+                    <mainClass>com.bofa.application.HelpApplication</mainClass>
+                    <vendor>Bofa1ex</vendor>
+                    <verbose>false</verbose>
+                    <jfxMainAppJarName>mybatis-generator-gui.jar</jfxMainAppJarName>
+                    <needShortcut>true</needShortcut>
+                    <needMenu>true</needMenu>
+                    <copyAdditionalAppResourcesToJar>true</copyAdditionalAppResourcesToJar>
+                    <!-- oracle的依赖, 由于scope定义为system, 需要手动给定lib位置 -->
+                    <additionalAppResources>${project.basedir}/src/main/resources</additionalAppResources>
+                    <additionalBundlerResources>${parent.basedir}/mybatis-generator-service/lib
+                    </additionalBundlerResources>
+                </configuration>
+                <!-- multi-module-project build jfx-native -->
+                <!-- 需要在启动类所在的module下加入该插件并指定当root执行package时
+                     该module进行build-native -->
+                <executions>
+                    <execution>
+                        <!-- required before build-native -->
+                        <id>create-jfxjar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>create-native</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-native</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
