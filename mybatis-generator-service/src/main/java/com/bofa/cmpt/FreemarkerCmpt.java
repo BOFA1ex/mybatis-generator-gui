@@ -23,7 +23,7 @@ import java.nio.file.Files;
 public class FreemarkerCmpt {
 
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
-    public static final String FREEMARKER_DIRECTORY = "/src/main/resources/fmk";
+    //    public static final String FREEMARKER_DIRECTORY = "/src/main/resources/fmk";
     public static final String FREEMARKER_SUFFIX = ".ftl";
 
     @Autowired
@@ -42,7 +42,6 @@ public class FreemarkerCmpt {
             if (ftlName == null) {
                 return;
             }
-
             ftlName = this.checkName(ftlName);
             Template temp = this.cfg.getTemplate(ftlName);
             Writer out = null;
@@ -81,7 +80,7 @@ public class FreemarkerCmpt {
     }
 
     private String checkName(String ftlName) {
-        if (!FREEMARKER_SUFFIX.endsWith(ftlName)) {
+        if (!ftlName.endsWith(FREEMARKER_SUFFIX)) {
             ftlName = ftlName + FREEMARKER_SUFFIX;
         }
         return ftlName;

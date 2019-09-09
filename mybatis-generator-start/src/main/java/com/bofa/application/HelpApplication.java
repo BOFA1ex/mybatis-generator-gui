@@ -1,5 +1,7 @@
 package com.bofa.application;
 
+import com.bofa.codegen.mybatis.MybatisGenerateCodeSv;
+import com.bofa.codegen.mybatis.dto.MybatisGenerateCodeRequest;
 import com.bofa.javafx.MainApp;
 import com.sun.javafx.application.LauncherImpl;
 import org.mybatis.spring.annotation.MapperScan;

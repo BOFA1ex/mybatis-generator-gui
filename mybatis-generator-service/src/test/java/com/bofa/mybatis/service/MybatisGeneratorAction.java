@@ -1,6 +1,5 @@
 package com.bofa.mybatis.service;
 
-import com.bofa.common.codegen.fmk.model.BaseMapperBean;
 import com.bofa.common.codegen.mybatis.callback.MyCallBack;
 import com.bofa.common.codegen.mybatis.plugin.LombokPlugin;
 import com.bofa.common.codegen.mybatis.plugin.MybatisMappingPlugin;
@@ -141,25 +140,6 @@ public class MybatisGeneratorAction {
 //            fmkGen(dic, "com.bofa.mapper");
             myBatisGenerator.generate(new NullProgressCallback());
         } catch (Exception var18) {
-        }
-    }
-
-    private static void fmkGen(File targetFile, String packageValue) throws IOException {
-        freemarker.template.Configuration cfg = new freemarker.template.Configuration(VERSION_2_3_28);
-        cfg.setDirectoryForTemplateLoading(Paths.get("/Users/Bofa/mybatis-generator-gui/mybatis-generator-common/src/main/resources").toFile());
-        Template temp = null;
-        Path path = Paths.get(targetFile.getName(), "BaseMapper.java");
-        if (Files.exists(path)) {
-            Files.delete(path);
-        }
-        Path targetPath = Files.createFile(path);
-        try (Writer out = Files.newBufferedWriter(targetPath)) {
-            temp = cfg.getTemplate("/src/main/resources/fmk/BaseMapper.ftl");
-            BaseMapperBean mapperBean = new BaseMapperBean();
-            mapperBean.setPackageValue(packageValue);
-            temp.process(mapperBean, out);
-        } catch (IOException | TemplateException e) {
-            e.printStackTrace();
         }
     }
 

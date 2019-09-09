@@ -15,10 +15,14 @@ import com.bofa.management.util.ApplicationContextUtil;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.*;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -27,6 +31,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import lombok.Data;
 import lombok.val;
@@ -34,6 +39,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.comparator.Comparators;
 
 import java.awt.*;
 import java.io.File;
@@ -115,6 +121,25 @@ public class RootViewController extends AbstractFxmlController {
     private Button generateBtn;
     @FXML
     private Button chooseDaoProjectBtn;
+    @FXML
+    private GridPane daoGrid;
+    @FXML
+    private GridPane svGrid;
+    @FXML
+    private TextField serviceProjectPathView;
+    @FXML
+    private GridPane controllerGrid;
+    @FXML
+    private TextField controllerBaseUrlView;
+    /**
+     * ================ comboExtension view ================
+     */
+    @FXML
+    private AnchorPane comboExBox;
+    @FXML
+    private ComboBox<String> comboBox;
+    @FXML
+    private HBox comboHBox;
 
     private DbSv dbSv;
 
@@ -122,6 +147,7 @@ public class RootViewController extends AbstractFxmlController {
 
     private GenDetailsHolder genHolder = new GenDetailsHolder();
 
+    private GridPaneListener gridPaneListener;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -139,6 +165,10 @@ public class RootViewController extends AbstractFxmlController {
         /* init toggleButtons in toggleGroup */
         initControllerToggleButtonsGroup();
         initServiceToggleButtonsGroup();
+        /* after init toggleButton instantiate the gridPane listener */
+        gridPaneListener = new GridPaneListener();
+        /* init comboExBox */
+        initComboExBox();
         /* bind button eventHandler */
         connectDbBtn.setOnMouseClicked(event -> {
             DbDialogController controller = (DbDialogController) loadFxml("New DataBase Connection", FxmlEnum.NEW_CONNECTION);
@@ -164,7 +194,6 @@ public class RootViewController extends AbstractFxmlController {
             }
             AlertUtil.showInfoAlert("生成成功!");
         });
-
         /* init textFieldView listener */
         basePackageView.textProperty().addListener((observable, oldValue, newValue) -> {
             if (StringUtils.isBlank(newValue)) {
@@ -365,7 +394,36 @@ public class RootViewController extends AbstractFxmlController {
         request.setEntityPrimaryKeyRule(genHolder.getEntityPrimaryKeyRule());
         request.setTableName(genHolder.getTableInfo().getTableName());
         request.setDbId(genHolder.getDbconfig().getId());
+        String svGenFlag = serviceOn.isSelected() ? "on" : "off";
+        request.setSvGenFlag(svGenFlag);
+        request.setSvPackage(daoPackageView.getText());
+        request.setServiceBasePath(serviceProjectPathView.getText());
+        String controllerGenFlag = controllerOn.isSelected() ? "on" : "off";
+        request.setControllerGenFlag(controllerGenFlag);
         return request;
+    }
+
+    private Label mapperLabel(String selectedItem) {
+        Label label = new Label();
+        label.setText(selectedItem);
+        // 设置控件的取向，比如设置icon在文字右侧
+        label.setContentDisplay(ContentDisplay.RIGHT);
+        label.setPrefHeight(comboHBox.getHeight());
+        label.setPadding(new Insets(0, 5, 0, 0));
+        /* if the text of the exceeds the available space for rendering the text */
+        label.setTextOverrun(OverrunStyle.LEADING_WORD_ELLIPSIS);
+        ImageView imageView = new ImageView("icons/close.png");
+        imageView.setFitHeight(16);
+        imageView.setFitWidth(16);
+        label.setGraphic(imageView);
+        /* The amount of space between the graphic and text */
+        label.setGraphicTextGap(5.0);
+        label.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            comboBox.getItems().add(label.getText());
+            comboBox.getItems().sort(Comparators.comparable());
+            comboHBox.getChildren().remove(label);
+        });
+        return label;
     }
 
     private void initControllerToggleButtonsGroup() {
@@ -387,8 +445,10 @@ public class RootViewController extends AbstractFxmlController {
                 controllerOnStyleClass.add("toggle-button-on");
                 controllerOffStyleClass.add("toggle-button-close");
                 //set current pane unVisible, set controller pane visible
-                //TODO 2019-09-03 00:03 see above comment to finish it.
+                //TODO 2019-09-03 00:03 see above comment to finish it. 09-06 finished.
+                gridPaneListener.mark(controllerGrid);
             } else {
+                gridPaneListener.fallback(controllerGrid);
                 controllerOnStyleClass.add("toggle-button-close");
                 controllerOffStyleClass.add("toggle-button-on");
             }
@@ -413,8 +473,10 @@ public class RootViewController extends AbstractFxmlController {
                 serviceOnStyleClass.add("toggle-button-on");
                 serviceOffStyleClass.add("toggle-button-close");
                 //set current pane unVisible, set controller pane visible
-                //TODO 2019-09-03 00:03 see above comment to finish it.
+                gridPaneListener.mark(svGrid);
+                //TODO 2019-09-03 00:03 see above comment to finish it. 09-06 finished.
             } else {
+                gridPaneListener.fallback(svGrid);
                 serviceOnStyleClass.add("toggle-button-close");
                 serviceOffStyleClass.add("toggle-button-on");
             }
@@ -434,6 +496,35 @@ public class RootViewController extends AbstractFxmlController {
                 genHolder.setEntityPrimaryKeyRule(((String) newValue.getUserData())));
     }
 
+    private void fillComboBoxItems(String... items) {
+        comboBox.setItems(FXCollections.observableArrayList(items));
+    }
+
+    private void initComboExBox() {
+        // dynamic set width, height
+        fillComboBoxItems("userId", "userName");
+        comboHBox.getStyleClass().add("combo-ex-box");
+        comboBox.setPrefHeight(comboExBox.getHeight());
+        comboBox.setPrefWidth(comboExBox.getWidth());
+        comboHBox.setPrefHeight(comboExBox.getHeight());
+        comboHBox.setPrefWidth(comboExBox.getWidth());
+        // comboHBox bind mouse click eventHandler to show comboBox item content.
+        comboHBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> comboBox.show());
+        comboBox.showingProperty().addListener((observable, oldValue, newValue) -> {
+            String selectedItem = comboBox.getSelectionModel().getSelectedItem();
+            if (selectedItem == null) {
+                return;
+            }
+            comboBox.getSelectionModel().clearSelection();
+            comboBox.getItems().remove(selectedItem);
+            Label label = mapperLabel(selectedItem);
+            boolean match = comboHBox.getChildren().stream().anyMatch(node -> ((Label) node).getText().equals(selectedItem));
+            if (!match) {
+                comboHBox.getChildren().add(label);
+            }
+        });
+    }
+
     public DbSv getDbSv() {
         return dbSv;
     }
@@ -444,5 +535,28 @@ public class RootViewController extends AbstractFxmlController {
         TableInfo tableInfo;
         Dbconfig dbconfig;
         String entityPrimaryKeyRule;
+    }
+
+    class GridPaneListener {
+        Deque<GridPane> paneDeque = new LinkedList<>();
+        List<GridPane> list = Arrays.asList(daoGrid, svGrid, controllerGrid);
+
+        public GridPaneListener() {
+            paneDeque.push(daoGrid);
+        }
+
+        public void mark(GridPane currentPane) {
+            paneDeque.push(currentPane);
+            currentPane.setVisible(true);
+            list.stream().filter(pane -> !pane.equals(currentPane)).forEach(pane -> pane.setVisible(false));
+        }
+
+        public void fallback(GridPane currentPane) {
+            paneDeque.remove(currentPane);
+            GridPane lastMarkPane = paneDeque.peek();
+            assert lastMarkPane != null;
+            lastMarkPane.setVisible(true);
+            list.stream().filter(pane -> !pane.equals(lastMarkPane)).forEach(pane -> pane.setVisible(false));
+        }
     }
 }
