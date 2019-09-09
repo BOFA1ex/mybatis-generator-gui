@@ -5,10 +5,11 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:./data/mybatisGenHelper
+#    url: jdbc:h2:~/.h2/chat
     username: helper
     password: helper
   h2:
     console:
-      enabled: true
+      enabled: false
       path: /h2.console
 

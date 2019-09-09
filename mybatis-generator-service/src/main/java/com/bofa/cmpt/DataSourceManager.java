@@ -1,6 +1,9 @@
 package com.bofa.cmpt;
 
+import com.bofa.common.codegen.mybatis.plugin.JavaTypeResolverJsr310Impl;
+import com.bofa.common.model.TableColumnInfo;
 import com.bofa.common.model.TableInfo;
+import com.bofa.common.util.SqlAndJavaTypesMappingUtil;
 import com.bofa.management.bean.DatasourceHolder;
 import com.bofa.management.dao.datasource.entity.Dbconfig;
 import com.bofa.management.exception.BusinessException;
@@ -27,38 +30,47 @@ public class DataSourceManager {
 
     static final Logger logger = LoggerFactory.getLogger(DataSourceManager.class);
 
-//    private ConcurrentHashMap<Long, DatasourceHolder> datasourceHolderMap = new ConcurrentHashMap<>();
-
-//    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-//    private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
-//    private ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
-
     public DatasourceHolder getDatasourceHolder(Dbconfig dbconfig) {
         DatasourceHolder instance = null;
-        // quick-read
-//        try {
-//            readLock.lock();
-//        instance = this.datasourceHolderMap.get(dbconfig.getId());
-//        } finally {
-//            readLock.unlock();
-//        }
-//        if (instance != null) {
-//            logger.info("datasourceHolder -> {}", instance);
-//            return instance;
-//        }
-//        if (instance == null) {
-//            instance = this.createDatasourceHolder(dbconfig);
-//            this.datasourceHolderMap.put(dbconfig.getId(), instance);
-//        }
-        // write
-//        try {
-//            writeLock.lock();
-//        } finally {
-//            writeLock.unlock();
-//        }
         instance = this.createDatasourceHolder(dbconfig);
         logger.info("datasourceHolder -> {}", instance);
         return instance;
+    }
+
+    public List<TableColumnInfo> getTableColumnInfos(DataSource dataSource, String schema, DbType dbType, String tableName) {
+        ResultSet rs = null;
+        List<TableColumnInfo> columns = new ArrayList();
+        try (Connection conn = dataSource.getConnection()) {
+            DatabaseMetaData dbmd = conn.getMetaData();
+            if (dbType == DbType.Oracle) {
+                rs = dbmd.getColumns(null, schema != null ? schema.toUpperCase() : null, tableName, null);
+            } else {
+                rs = dbmd.getColumns(null, null, tableName, null);
+            }
+            JavaTypeResolverJsr310Impl jtm = new JavaTypeResolverJsr310Impl();
+            int i = 1;
+            while (rs.next()) {
+                TableColumnInfo column = new TableColumnInfo();
+                column.setId(i++);
+                column.setTableName(tableName);
+                column.setColumnName(rs.getString("COLUMN_NAME"));
+                column.setJdbcTypeInt(rs.getInt("DATA_TYPE"));
+                column.setJdbcType(rs.getString("TYPE_NAME"));
+                column.setColumnSize(rs.getInt("COLUMN_SIZE"));
+                column.setDecimalDigits(rs.getInt("DECIMAL_DIGITS"));
+                column.setNullable(rs.getString("NULLABLE"));
+                column.setRemarks(rs.getString("REMARKS"));
+                column.setColumnDef(rs.getString("COLUMN_DEF"));
+                column.setPropertyName(SqlAndJavaTypesMappingUtil.toHumpName(column.getColumnName(), 1));
+                column.setFunctionNamePostfix(SqlAndJavaTypesMappingUtil.toHumpName(column.getColumnName(), 0));
+                column.setJavaType(jtm.adaptJavaType(column));
+                column.setJavaTypeShotName(jtm.adaptSimpleJavaType(column));
+                columns.add(column);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return columns;
     }
 
     public List<TableInfo> getAllTables(DataSource dataSource, String schema, DbType dbType) {
@@ -78,7 +90,7 @@ public class DataSourceManager {
                 info.setDbname(rs.getString(1));
                 info.setTableName(rs.getString(3));
                 info.setType(rs.getString(4));
-                ResultSet keysRs = dbmd.getPrimaryKeys(null, schema != null ? schema.toUpperCase() : null, info.getTableName());
+                ResultSet keysRs = dbmd.getPrimaryKeys(null, null, info.getTableName());
                 while (keysRs.next()) {
                     String primaryKeyColumnName = keysRs.getString("COLUMN_NAME");
                     if (StringUtils.isBlank(primaryKeyColumnName)) {

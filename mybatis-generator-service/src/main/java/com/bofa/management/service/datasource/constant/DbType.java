@@ -21,7 +21,7 @@ public enum DbType {
      */
     MySQL("com.mysql.cj.jdbc.Driver", "jdbc:mysql://%s:%s/%s", "//", ":", "/", "3306", null),
     Oracle("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@%s:%s:%s", "@", ":", ":", "1521", "mybatis-generator-gui/lib/ojdbc-6.0.jar"),
-    H2("org.h2.Driver", "jdbc:h2://%s:%s/%s", "//", ":", "/", "9092", null);
+    H2("org.h2.Driver", "jdbc:h2:", "", ":", "/", "", null);
 
     private final String driverClass;
     private final String connectionUrlPattern;

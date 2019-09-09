@@ -23,8 +23,7 @@ public class CommonEntityClassPlugin extends PluginAdapter {
 
     static final Logger logger = LoggerFactory.getLogger(CommonEntityClassPlugin.class);
 
-    private static final String DEFAULT_BASE_PACKAGE = ".base.";
-    private ShellCallback shellCallback = null;
+    private ShellCallback shellCallback;
 
     public CommonEntityClassPlugin() {
         shellCallback = new DefaultShellCallback(false);
@@ -44,8 +43,9 @@ public class CommonEntityClassPlugin extends PluginAdapter {
         /* base entity generated */
         String entityTargetDir = context.getJavaModelGeneratorConfiguration().getTargetProject();
         String entityTargetPackage = context.getJavaModelGeneratorConfiguration().getTargetPackage();
+        String baseClassPackage = context.getProperty("baseClassPackage");
         String rootEntityClass = context.getJavaModelGeneratorConfiguration().getProperty("rootClass");
-        TopLevelClass baseEntity = new TopLevelClass(DEFAULT_BASE_PACKAGE + rootEntityClass);
+        TopLevelClass baseEntity = new TopLevelClass(baseClassPackage + "." + rootEntityClass);
         if (stringHasValue(entityTargetPackage)) {
             baseEntity.setVisibility(JavaVisibility.PUBLIC);
             baseEntity.addJavaDocLine("/**");
@@ -71,9 +71,8 @@ public class CommonEntityClassPlugin extends PluginAdapter {
     @Override
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         String rootEntityClass = introspectedTable.getContext().getJavaModelGeneratorConfiguration().getProperty("rootClass");
-        String targetPackage = introspectedTable.getContext().getJavaModelGeneratorConfiguration().getTargetPackage();
-        topLevelClass.addImportedType(targetPackage + DEFAULT_BASE_PACKAGE + rootEntityClass);
+        String baseClassPackage = context.getProperty("baseClassPackage");
+        topLevelClass.addImportedType(baseClassPackage + "." + rootEntityClass);
         return true;
     }
-
 }

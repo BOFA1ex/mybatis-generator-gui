@@ -23,8 +23,7 @@ import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 public class CommonMapperInterfacePlugin extends PluginAdapter {
 
     static final Logger logger = LoggerFactory.getLogger(CommonMapperInterfacePlugin.class);
-    private static final String DEFAULT_BASE_PACKAGE = ".base.";
-    private static final String DEFAULT_DAO_SUPER_CLASS = "BaseMapper";
+    private static final String DEFAULT_DAO_SUPER_CLASS = ".BaseMapper";
     private static final FullyQualifiedJavaType PARAM_ANNOTATION_TYPE = new FullyQualifiedJavaType("org.apache.ibatis.annotations.Param");
     private static final FullyQualifiedJavaType LIST_TYPE = FullyQualifiedJavaType.getNewListInstance();
 
@@ -74,7 +73,8 @@ public class CommonMapperInterfacePlugin extends PluginAdapter {
         /* base mapper generated */
         String daoTargetDir = context.getJavaClientGeneratorConfiguration().getTargetProject();
         String daoTargetPackage = context.getJavaClientGeneratorConfiguration().getTargetPackage();
-        Interface mapperInterface = new Interface(daoTargetPackage + DEFAULT_BASE_PACKAGE + DEFAULT_DAO_SUPER_CLASS);
+        String baseClassPackage = context.getProperty("baseClassPackage");
+        Interface mapperInterface = new Interface(baseClassPackage + DEFAULT_DAO_SUPER_CLASS);
         if (stringHasValue(daoTargetPackage)) {
             mapperInterface.addImportedType(PARAM_ANNOTATION_TYPE);
             mapperInterface.addImportedType(LIST_TYPE);
@@ -133,7 +133,8 @@ public class CommonMapperInterfacePlugin extends PluginAdapter {
         interfaze.addJavaDocLine(" * @author ");
         interfaze.addJavaDocLine(" */");
 
-        String daoSuperClass = interfaze.getType().getPackageName() + DEFAULT_BASE_PACKAGE + DEFAULT_DAO_SUPER_CLASS;
+        String baseClassPackage = context.getProperty("baseClassPackage");
+        String daoSuperClass = baseClassPackage + DEFAULT_DAO_SUPER_CLASS;
         FullyQualifiedJavaType daoSuperType = new FullyQualifiedJavaType(daoSuperClass);
         String targetPackage = introspectedTable.getContext().getJavaModelGeneratorConfiguration().getTargetPackage();
 

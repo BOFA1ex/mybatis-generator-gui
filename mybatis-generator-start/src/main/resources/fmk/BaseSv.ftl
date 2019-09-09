@@ -1,7 +1,7 @@
 package ${packageValue};
 
 <#list imports as importName>
-    import ${importName};
+import ${importName};
 </#list>
 public class BaseSv<M extends BaseMapper<T, I, E>, T extends MybatisEntity, I, E> {
     protected M mapper;
@@ -13,7 +13,7 @@ public class BaseSv<M extends BaseMapper<T, I, E>, T extends MybatisEntity, I, E
     }
 
     public List<T> list() {
-        return this.mapper.selectByExample((Object)null);
+        return this.mapper.selectByExample(null);
     }
 
     protected List<T> list(E exmp) {

@@ -23,6 +23,7 @@ public class MybatisGenerateCodeRequest {
     private String daoBasePath;
     private String entityPackage;
     private String daoPackage;
+    private String BaseClassPackage;
     private String serviceBasePath;
     private String svGenFlag;
     private String svPackage;
@@ -31,4 +32,5 @@ public class MybatisGenerateCodeRequest {
     private String controllerGenFlag;
     private String controllerPackage;
     private String baseUrlPath;
+    private boolean validate = true;
 }

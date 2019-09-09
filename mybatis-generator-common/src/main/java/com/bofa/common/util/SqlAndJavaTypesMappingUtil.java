@@ -33,9 +33,10 @@ public class SqlAndJavaTypesMappingUtil {
     }
 
     public static String findByType(int type) {
-        String typeName = (String) sqlTypes.get(type);
+        String typeName = sqlTypes.get(type);
         return typeName == null ? "" + type : typeName;
     }
+
 
     public static String toHumpName(String name, int startIndex) {
         String colName = name.toLowerCase(Locale.ROOT);

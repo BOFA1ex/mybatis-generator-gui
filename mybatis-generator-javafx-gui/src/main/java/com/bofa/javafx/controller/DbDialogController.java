@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import java.net.URL;
 import java.util.*;
 
+import static com.bofa.management.service.datasource.constant.DbType.H2;
+
 /**
  * @author bofa1ex
  * @since 2019-08-30
@@ -75,6 +77,9 @@ public class DbDialogController extends AbstractFxmlController {
                     .ifPresent(dbType -> {
                         try {
                             mainCommand = true;
+                            if (executeDbType(dbType)) {
+                                return;
+                            }
                             portView.setText(dbType.getDefaultPort());
                             String host = hostView.getText();
                             String port = portView.getText();
@@ -145,6 +150,9 @@ public class DbDialogController extends AbstractFxmlController {
                 AlertUtil.showInfoAlert("driverComboBox未选择数据库类型");
                 return;
             }
+            if (selectedItem.equalsIgnoreCase(H2.name())) {
+                return;
+            }
             StringBuilder sb = new StringBuilder(urlView.getText());
             DbType dt = DbType.findDbType(selectedItem);
             assert dt != null;
@@ -158,13 +166,20 @@ public class DbDialogController extends AbstractFxmlController {
                 return;
             }
             String selectedItem = driverComboBox.getSelectionModel().getSelectedItem();
+            String original;
             if (selectedItem == null) {
                 AlertUtil.showInfoAlert("driverComboBox未选择数据库类型");
                 return;
             }
             DbType dt = DbType.findDbType(selectedItem);
             assert dt != null;
-            String original = urlView.getText();
+            if (selectedItem.equalsIgnoreCase(H2.name())) {
+                original = urlView.getText();
+                int schemaIndex = original.lastIndexOf(dt.getSchemaDelimiter());
+                schemaView.setText(original.substring(schemaIndex + dt.getSchemaDelimiter().length()));
+                return;
+            }
+            original = urlView.getText();
             int hostIndex = original.indexOf(dt.getHostDelimiter());
             int portIndex = original.indexOf(dt.getPortDelimiter(), hostIndex);
             int schemaIndex = original.indexOf(dt.getSchemaDelimiter(), portIndex);
@@ -221,7 +236,7 @@ public class DbDialogController extends AbstractFxmlController {
         try {
             dbSv.testDbConnect(dto);
             Dbconfig dbconfigWithId = dbSv.saveDbConfig(dto);
-            DatasourceHolder holder = dbSv.getDatasourceHolder(dbconfigWithId);
+            DatasourceHolder holder = dbSv.getDatasourceHolderWithTableInfo(dbconfigWithId);
             ((RootViewController) mainController).loadTreeView(holder.getDbconfig());
         } catch (Exception e) {
             sc = false;
@@ -286,5 +301,33 @@ public class DbDialogController extends AbstractFxmlController {
         if (dbSv == null) {
             dbSv = ((RootViewController) mainController).getDbSv();
         }
+    }
+
+    /**
+     * h2 要考虑embedded，remote, in-memory类型
+     * 因此不考虑填充, 仅支持URL_ONLY
+     *
+     * @param dbType
+     *
+     * @return
+     */
+    private boolean executeDbType(DbType dbType) {
+        if (dbType == H2) {
+            hostView.setText("URL ONLY");
+            hostView.setEditable(false);
+            portView.setText("URL ONLY");
+            portView.setEditable(false);
+            schemaView.setText("URL ONLY");
+            schemaView.setEditable(false);
+            urlView.setText(dbType.getConnectionUrlPattern());
+            return true;
+        } else {
+            hostView.setEditable(true);
+            portView.setEditable(true);
+            schemaView.setEditable(true);
+            hostView.setText("localhost");
+            schemaView.setText("");
+        }
+        return false;
     }
 }
