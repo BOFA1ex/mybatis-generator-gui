@@ -33,15 +33,20 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-core</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!-- javafx-test-dependency -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.testfx</groupId>-->
+        <!--            <artifactId>testfx-core</artifactId>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.testfx</groupId>-->
+        <!--            <artifactId>testfx-junit</artifactId>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
     </dependencies>
 
     <build>

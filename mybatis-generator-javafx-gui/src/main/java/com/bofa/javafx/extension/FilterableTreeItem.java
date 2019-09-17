@@ -10,8 +10,11 @@ import javafx.scene.control.TreeItem;
 import lombok.Data;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author bofa1ex
@@ -85,6 +88,7 @@ public class FilterableTreeItem<T> extends TreeItem<T> {
             }
         }
         Optional.ofNullable(removeItem).ifPresent(this.sourceList::remove);
+
     }
 
     public int size() {

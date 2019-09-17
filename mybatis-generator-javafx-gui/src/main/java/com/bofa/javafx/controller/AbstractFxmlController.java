@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -66,6 +68,14 @@ public abstract class AbstractFxmlController implements Initializable {
             AlertUtil.showErrorAlert(ExceptionUtils.getStackTrace(e));
         }
         return null;
+    }
+
+    public void testMethod(String arg1, Integer arg2, Map<Integer, String> arg3) {
+        System.out.println("arg1 -> " + arg1);
+        System.out.println("arg2 -> " + arg2);
+        System.out.println("arg3 -> " + arg3);
+        boolean flag = true;
+        System.out.println(flag);
     }
 
     /**

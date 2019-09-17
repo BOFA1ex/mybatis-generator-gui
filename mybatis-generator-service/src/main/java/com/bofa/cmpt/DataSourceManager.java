@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author bofa1ex

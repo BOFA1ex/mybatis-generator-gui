@@ -1,7 +1,6 @@
 package com.bofa.common.util;
 
-import com.bofa.common.codegen.mybatis.plugin.JavaTypeResolverJsr310Impl;
-import com.project.tool.component.bean.TableColumnInfo;
+import com.bofa.common.model.TableColumnInfo;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl;
 
@@ -35,7 +34,7 @@ public class MybatisJavaTypeMappingUtil extends JavaTypeResolverDefaultImpl {
 
     protected FullyQualifiedJavaType overrideDefaultType(TableColumnInfo column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer = defaultType;
-        switch(column.getJdbcTypeInt()) {
+        switch (column.getJdbcTypeInt()) {
             case -7:
                 if (column.getColumnSize() > 1) {
                     answer = new FullyQualifiedJavaType("byte[]");
@@ -44,6 +43,7 @@ public class MybatisJavaTypeMappingUtil extends JavaTypeResolverDefaultImpl {
                 }
                 break;
             case 2:
+                break;
             case 3:
                 if (column.getDecimalDigits() <= 0 && column.getColumnSize() <= 18) {
                     if (column.getColumnSize() > 9) {
@@ -56,6 +56,9 @@ public class MybatisJavaTypeMappingUtil extends JavaTypeResolverDefaultImpl {
                 } else {
                     answer = defaultType;
                 }
+                break;
+            default:
+                break;
         }
 
         return answer;

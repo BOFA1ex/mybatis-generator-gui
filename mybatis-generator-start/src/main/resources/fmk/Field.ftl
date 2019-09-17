@@ -1,6 +1,6 @@
 
 <#list fieldBean.annotates as annotate>
-	${annotate}
+    ${annotate}
 </#list>
-	${fieldBean.modifier} ${fieldBean.type} ${fieldBean.name};
+    ${fieldBean.modifier} ${fieldBean.type} ${fieldBean.name};
 	

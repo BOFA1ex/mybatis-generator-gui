@@ -18,356 +18,259 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bofa.javafx.controller.DbDialogController">
-   <top>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER_LEFT">
-               <children>
-                  <Label alignment="CENTER" text="Name: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                     <font>
-                        <Font name="Monaco" size="13.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="40.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="connectNameView" promptText="connect name" HBox.hgrow="SOMETIMES">
-                     <HBox.margin>
-                        <Insets left="50.0" right="300.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT">
-               <children>
-                  <Label text="Comment:">
-                     <HBox.margin>
-                        <Insets left="40.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="connectCommentView" promptText="connect comment" HBox.hgrow="SOMETIMES">
-                     <HBox.margin>
-                        <Insets left="33.5" right="80.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-            </HBox>
-         </children>
-      </VBox>
-   </top>
-   <center>
-      <TabPane opacity="0.75" prefHeight="200.0" prefWidth="200.0" rotateGraphic="true" style="-fx-tab-min-width: 150;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab closable="false" text="  General  ">
-               <content>
-                  <GridPane prefHeight="415.0" prefWidth="800.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="539.0" minWidth="10.0" prefWidth="469.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="331.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
-                           <children>
-                              <Label alignment="CENTER" text="Host: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField fx:id="hostView" text="localhost" HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="75.0" right="50.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <children>
-                              <Label alignment="CENTER" text="Port: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="20.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField fx:id="portView">
-                                 <HBox.margin>
-                                    <Insets right="20.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
-                           <children>
-                              <Label alignment="CENTER" text="User: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField fx:id="userView" HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="75.0" right="50.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="91.0" GridPane.rowIndex="3">
-                           <children>
-                              <Label alignment="CENTER" text="Password: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <PasswordField fx:id="pwdView" HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="43.5" right="50.0" />
-                                 </HBox.margin>
-                              </PasswordField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
-                           <children>
-                              <Label alignment="CENTER" text="Database: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField fx:id="schemaView" HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="43.5" right="150.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
-                           <children>
-                              <Label alignment="CENTER" text="URL: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="82.5" right="150.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <TextField fx:id="urlView" />
-                                    <Label text="Overrides settings above" textFill="#615d5d" underline="true">
-                                       <VBox.margin>
-                                          <Insets top="5.0" />
-                                       </VBox.margin>
-                                       <font>
-                                          <Font name="Monaco" size="11.0" />
-                                       </font>
-                                    </Label>
-                                    <Button fx:id="dbTestBtn" mnemonicParsing="false" text="Test Connection">
-                                       <VBox.margin>
-                                          <Insets top="5.0" />
-                                       </VBox.margin>
-                                       <font>
-                                          <Font name="Monaco" size="13.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT">
-                           <children>
-                              <Label alignment="CENTER" text="Driver:" textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <ComboBox fx:id="driverComboBox" prefWidth="150.0" HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="67.0" right="50.0" />
-                                 </HBox.margin>
-                              </ComboBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </GridPane>
-               </content>
-            </Tab>
-            <Tab closable="false" text="  SSH/SSL  ">
-               <content>
-                  <GridPane prefHeight="415.0" prefWidth="800.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="539.0" minWidth="10.0" prefWidth="469.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="331.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <HBox alignment="CENTER_LEFT">
-                           <children>
-                              <Label alignment="CENTER" text="Host: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="75.0" right="50.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
-                           <children>
-                              <Label alignment="CENTER" text="Port: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="20.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField>
-                                 <HBox.margin>
-                                    <Insets right="20.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
-                           <children>
-                              <Label alignment="CENTER" text="User: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="75.0" right="50.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="91.0" GridPane.rowIndex="2">
-                           <children>
-                              <Label alignment="CENTER" text="Password: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="43.5" right="50.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
-                           <children>
-                              <Label alignment="CENTER" text="Database: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="43.5" right="150.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
-                           <children>
-                              <Label alignment="CENTER" text="URL: " textAlignment="CENTER" HBox.hgrow="NEVER">
-                                 <font>
-                                    <Font name="Monaco" size="13.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="40.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField HBox.hgrow="SOMETIMES">
-                                 <HBox.margin>
-                                    <Insets left="82.5" right="150.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                     </children>
-                  </GridPane>
-               </content>
-            </Tab>
-        </tabs>
-         <effect>
-            <Glow level="0.2" />
-         </effect>
-      </TabPane>
-   </center>
-   <bottom>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <buttons>
-          <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel" />
-            <Button fx:id="applyBtn" mnemonicParsing="false" text="Apply" />
-        </buttons>
-         <effect>
-            <Glow />
-         </effect>
-         <padding>
-            <Insets right="10.0" />
-         </padding>
-      </ButtonBar>
-   </bottom>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0"
+            prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.bofa.javafx.controller.DbDialogController">
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Label alignment="CENTER" text="Name: " textAlignment="CENTER" HBox.hgrow="NEVER">
+                            <font>
+                                <Font name="Monaco" size="13.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="40.0"/>
+                            </HBox.margin>
+                        </Label>
+                        <TextField fx:id="connectNameView" promptText="connect name" HBox.hgrow="SOMETIMES">
+                            <HBox.margin>
+                                <Insets left="50.0" right="300.0"/>
+                            </HBox.margin>
+                        </TextField>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Label text="Comment:">
+                            <HBox.margin>
+                                <Insets left="40.0"/>
+                            </HBox.margin>
+                        </Label>
+                        <TextField fx:id="connectCommentView" promptText="connect comment" HBox.hgrow="SOMETIMES">
+                            <HBox.margin>
+                                <Insets left="33.5" right="80.0"/>
+                            </HBox.margin>
+                        </TextField>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0"/>
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <TabPane opacity="0.75" prefHeight="200.0" prefWidth="200.0" rotateGraphic="true"
+                 style="-fx-tab-min-width: 150;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab closable="false" text="  General  ">
+                    <content>
+                        <GridPane prefHeight="415.0" prefWidth="800.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="539.0" minWidth="10.0"
+                                                   prefWidth="469.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0"
+                                                   prefWidth="331.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
+                                    <children>
+                                        <Label alignment="CENTER" text="Host: " textAlignment="CENTER"
+                                               HBox.hgrow="NEVER">
+                                            <font>
+                                                <Font name="Monaco" size="13.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="40.0"/>
+                                            </HBox.margin>
+                                        </Label>
+                                        <TextField fx:id="hostView" text="localhost" HBox.hgrow="SOMETIMES">
+                                            <HBox.margin>
+                                                <Insets left="75.0" right="50.0"/>
+                                            </HBox.margin>
+                                        </TextField>
+                                    </children>
+                                    <GridPane.margin>
+                                        <Insets/>
+                                    </GridPane.margin>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <children>
+                                        <Label alignment="CENTER" text="Port: " textAlignment="CENTER"
+                                               HBox.hgrow="NEVER">
+                                            <font>
+                                                <Font name="Monaco" size="13.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="20.0"/>
+                                            </HBox.margin>
+                                        </Label>
+                                        <TextField fx:id="portView">
+                                            <HBox.margin>
+                                                <Insets right="20.0"/>
+                                            </HBox.margin>
+                                        </TextField>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
+                                    <children>
+                                        <Label alignment="CENTER" text="User: " textAlignment="CENTER"
+                                               HBox.hgrow="NEVER">
+                                            <font>
+                                                <Font name="Monaco" size="13.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="40.0"/>
+                                            </HBox.margin>
+                                        </Label>
+                                        <TextField fx:id="userView" HBox.hgrow="SOMETIMES">
+                                            <HBox.margin>
+                                                <Insets left="75.0" right="50.0"/>
+                                            </HBox.margin>
+                                        </TextField>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="91.0" GridPane.rowIndex="3">
+                                    <children>
+                                        <Label alignment="CENTER" text="Password: " textAlignment="CENTER"
+                                               HBox.hgrow="NEVER">
+                                            <font>
+                                                <Font name="Monaco" size="13.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="40.0"/>
+                                            </HBox.margin>
+                                        </Label>
+                                        <PasswordField fx:id="pwdView" HBox.hgrow="SOMETIMES">
+                                            <HBox.margin>
+                                                <Insets left="43.5" right="50.0"/>
+                                            </HBox.margin>
+                                        </PasswordField>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+                                    <children>
+                                        <Label alignment="CENTER" text="Database: " textAlignment="CENTER"
+                                               HBox.hgrow="NEVER">
+                                            <font>
+                                                <Font name="Monaco" size="13.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="40.0"/>
+                                            </HBox.margin>
+                                        </Label>
+                                        <TextField fx:id="schemaView" HBox.hgrow="SOMETIMES">
+                                            <HBox.margin>
+                                                <Insets left="43.5" right="150.0"/>
+                                            </HBox.margin>
+                                        </TextField>
+                                    </children>
+                                </HBox>
+                                <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
+                                    <children>
+                                        <Label alignment="CENTER" text="URL: " textAlignment="CENTER"
+                                               HBox.hgrow="NEVER">
+                                            <font>
+                                                <Font name="Monaco" size="13.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="40.0"/>
+                                            </HBox.margin>
+                                        </Label>
+                                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="SOMETIMES">
+                                            <HBox.margin>
+                                                <Insets left="82.5" right="150.0"/>
+                                            </HBox.margin>
+                                            <children>
+                                                <TextField fx:id="urlView"/>
+                                                <Label text="Overrides settings above" textFill="#615d5d"
+                                                       underline="true">
+                                                    <VBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </VBox.margin>
+                                                    <font>
+                                                        <Font name="Monaco" size="11.0"/>
+                                                    </font>
+                                                </Label>
+                                                <Button fx:id="dbTestBtn" mnemonicParsing="false"
+                                                        text="Test Connection">
+                                                    <VBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </VBox.margin>
+                                                    <font>
+                                                        <Font name="Monaco" size="13.0"/>
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label alignment="CENTER" text="Driver:" textAlignment="CENTER"
+                                               HBox.hgrow="NEVER">
+                                            <font>
+                                                <Font name="Monaco" size="13.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="40.0"/>
+                                            </HBox.margin>
+                                        </Label>
+                                        <ComboBox fx:id="driverComboBox" prefWidth="150.0" HBox.hgrow="SOMETIMES">
+                                            <HBox.margin>
+                                                <Insets left="67.0" right="50.0"/>
+                                            </HBox.margin>
+                                        </ComboBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab closable="false" text="  SSH/SSL  ">
+                    <content>
+                        <BorderPane>
+                            <center>
+                                <Label alignment="CENTER" text="Sorry bro" textAlignment="CENTER" HBox.hgrow="NEVER">
+                                    <font>
+                                        <Font name="Monaco" size="20.0"/>
+                                    </font>
+                                </Label>
+                            </center>
+                        </BorderPane>
+                    </content>
+                </Tab>
+            </tabs>
+            <effect>
+                <Glow level="0.2"/>
+            </effect>
+        </TabPane>
+    </center>
+    <bottom>
+        <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <buttons>
+                <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel"/>
+                <Button fx:id="applyBtn" mnemonicParsing="false" text="Apply"/>
+            </buttons>
+            <effect>
+                <Glow/>
+            </effect>
+            <padding>
+                <Insets right="10.0"/>
+            </padding>
+        </ButtonBar>
+    </bottom>
 </BorderPane>

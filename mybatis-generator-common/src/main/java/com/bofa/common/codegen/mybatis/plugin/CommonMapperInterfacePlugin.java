@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 

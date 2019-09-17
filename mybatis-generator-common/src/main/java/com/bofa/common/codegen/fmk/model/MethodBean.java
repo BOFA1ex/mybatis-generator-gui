@@ -22,4 +22,8 @@ public class MethodBean {
     public void addParam(ParamBean paramBean) {
         params.add(paramBean);
     }
+
+    public void addAnnotate(String annotate){
+        annotates.add(annotate);
+    }
 }
