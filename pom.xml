@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <google.guava.version>28.0-jre</google.guava.version>
+        <google.guava.version>29.0-jre</google.guava.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <fastxml.jackson.version>2.10.0.pr1</fastxml.jackson.version>
         <logback.version>1.2.3</logback.version>
